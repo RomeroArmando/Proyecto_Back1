@@ -13,11 +13,11 @@ export class productsManager{
         try{
 
             const exist = await fs.promises.access(this.file);
-            console.log('El archivo existe');
+            console.log('El archivo (products) existe');
 
         }catch (err){
 
-            console.log('el archivo NO EXISTE');
+            console.log('el archivo (products) NO EXISTE');
             await fs.promises.writeFile(this.file, JSON.stringify([]));
 
         }
@@ -47,12 +47,4 @@ export class productsManager{
 
     }
 
-    async deleteProduct(users){
-        
-        fs.unlink(this.file, (err) =>{
- 
-            console.log(err)
-
-        })
-    }
 }
