@@ -41,6 +41,13 @@ export class cartManager{
 
     }
 
+    async updatecart(data){
+
+        await fs.promises.writeFile(this.file, JSON.stringify(data));
+        console.log('carrito actualizado')
+
+    }
+
     async getCart() {
 
         return await this.#readCartFile();
