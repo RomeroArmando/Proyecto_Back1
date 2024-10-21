@@ -1,6 +1,11 @@
 import { Server } from "socket.io";
+import { users } from "../routes/products.router.js";
 
 const initSocket = (httpServer) => {
+
+    const messages = users;
+
+    console.log(messages);
 
     const io = new Server(httpServer);
     console.log('servicio socket.io activo');
@@ -10,6 +15,9 @@ const initSocket = (httpServer) => {
         console.log(`cliente conectado, id ${client.id} desde ${client.handshake.address}`);
 
         client.on('new_user_data', data => {
+    
+            client.emit('productos', messages);
+            //console.log(messages);
 
             client.broadcast.emit('new_user', data);
 

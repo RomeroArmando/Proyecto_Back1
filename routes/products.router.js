@@ -18,9 +18,9 @@ router.get('/', (req, res) => {
 });
 
 router.get('/realtimeproducts', (req, res) => {
-
-    const data = {};
-
+    const data = users;
+    //console.log(data);
+    
     res.status(200).render('realtimeproducts', data);
 
 });

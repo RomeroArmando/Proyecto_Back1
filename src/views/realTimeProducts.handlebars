@@ -11,12 +11,13 @@
 {{!-- <script src="/socket.io/socket.io.js"></script> --}}
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.1/dist/sweetalert2.all.min.js"></script>
+
 <script type="module">
     const url = ''; // vacío para localhost
     const options = {};
     const user = { nickName: '' };
     // Se crean referencias a elementos del DOM (párrafo con lista de mensajes y campo input para nuevos mensajes)
-    const prodList = document.getElementById('prod');
+    const prodList = document.getElementById('Prod');
 
     // Solicita nickname de la persona
     const askName = async () => {
@@ -42,7 +43,6 @@
         });
     }
 
-
     // Conexión al SERVIDOR websockets
     const socketClient = io(url, options);
 
@@ -54,6 +54,20 @@
         // Se le envía el nickname al servidor
         socketClient.emit('new_user_data', { user: user.nickName });
     });
+
+
+
+    socketClient.on('productos', data => {
+        
+        console.log(data)
+
+        prodList.innerHTML = '';
+       
+        data.forEach(msg => {
+            prodList.innerHTML += `<br /><strong>[${msg.id}</strong>] ${msg.title}`;
+        });
+    });
+    
 
     // new_user lo genera el servidor cuando recibe datos de un usuario nuevo conectado
     socketClient.on('new_user', data => {
