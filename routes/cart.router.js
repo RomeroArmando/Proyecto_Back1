@@ -130,6 +130,8 @@ routerCart.post('/:cid/product/:pid', (req, res) => {
 
 });
 
+//falta el delete 
+
 
 export default routerCart;
 

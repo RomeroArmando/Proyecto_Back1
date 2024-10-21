@@ -17,6 +17,14 @@ router.get('/', (req, res) => {
 
 });
 
+router.get('/realtimeproducts', (req, res) => {
+
+    const data = {};
+
+    res.status(200).render('realtimeproducts', data);
+
+});
+
 router.post('/', (req, res) => { 
     const { title, description, code, price, status, stock, category } = req.body;
 
@@ -43,6 +51,8 @@ router.post('/', (req, res) => {
     } else {
         res.status(400).send({ error: 'Faltan campos obligatorios', data: [] });
     }
+
+
 });
 
 router.put('/:id', (req, res) => {
