@@ -18,7 +18,9 @@ router.get('/', (req, res) => {
 });
 
 router.get('/realtimeproducts', (req, res) => {
+    
     const data = users;
+
     //console.log(data);
     
     res.status(200).render('realtimeproducts', data);
@@ -27,7 +29,7 @@ router.get('/realtimeproducts', (req, res) => {
 
 router.post('/', (req, res) => { 
     const { title, description, code, price, status, stock, category } = req.body;
-
+    
     if (title != '' && description != '') {
         const maxId = Math.max(...users.map(element => +element.id));
         var id = maxId;

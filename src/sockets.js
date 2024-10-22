@@ -23,6 +23,13 @@ const initSocket = (httpServer) => {
 
         });
 
+        client.on('new_own_msg', data => {
+            messages.push(data);
+            // Reenvía mensaje a TODOS los clientes conectados, INCLUYENDO el que mandó el msj original
+            io.emit('new_general_msg', data);
+        });
+
+        
     });
 
     return io;

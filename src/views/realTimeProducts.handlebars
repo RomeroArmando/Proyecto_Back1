@@ -8,6 +8,17 @@
     <p id="Prod" style="padding: 0; margin: 0;"></p>
 </div>
 
+<div style="margin-top: 2em; border: 1px solid #666; padding: 1em; width: 360px;">
+    <form id="myform" action="/api/products/" method="post">
+
+            <input type="text" id="title" name="title">
+            <br />
+
+            <button id="agregar_prod" type="submit"> cargar producto </button>
+            <button id="agregar_prod" type="submit"> cargar producto </button>
+    </form>
+</div>
+
 {{!-- <script src="/socket.io/socket.io.js"></script> --}}
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.1/dist/sweetalert2.all.min.js"></script>
@@ -55,11 +66,9 @@
         socketClient.emit('new_user_data', { user: user.nickName });
     });
 
-
-
     socketClient.on('productos', data => {
         
-        console.log(data)
+        //console.log(data)
 
         prodList.innerHTML = '';
        
@@ -67,8 +76,11 @@
             prodList.innerHTML += `<br /><strong>[${msg.id}</strong>] ${msg.title}`;
         });
     });
-    
 
+    socketClient.on('new_general_msg', data => {
+        prodList.innerHTML += `<br /><strong>[${data.id}</strong>] ${data.title}`;
+    });
+    
     // new_user lo genera el servidor cuando recibe datos de un usuario nuevo conectado
     socketClient.on('new_user', data => {
         notify(`${data.user} se ha conectado!`);
