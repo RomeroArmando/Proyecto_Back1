@@ -5,7 +5,7 @@ const initSocket = (httpServer) => {
 
     const messages = users;
 
-    console.log(messages);
+    //console.log(messages);
 
     const io = new Server(httpServer);
     console.log('servicio socket.io activo');

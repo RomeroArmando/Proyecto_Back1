@@ -9,14 +9,14 @@
 </div>
 
 <div style="margin-top: 2em; border: 1px solid #666; padding: 1em; width: 360px;">
-    <form id="myform" action="/api/products/" method="post">
+
 
             <input type="text" id="title" name="title">
             <br />
 
-            <button id="agregar_prod" type="submit"> cargar producto </button>
-            <button id="agregar_prod" type="submit"> cargar producto </button>
-    </form>
+            <button id="butLoa"> cargar producto </button>
+            <button id="butDel" href="/api/products/realtimeproducts"> borrar producto</button>
+
 </div>
 
 {{!-- <script src="/socket.io/socket.io.js"></script> --}}
@@ -30,8 +30,73 @@
     // Se crean referencias a elementos del DOM (párrafo con lista de mensajes y campo input para nuevos mensajes)
     const prodList = document.getElementById('Prod');
 
+    const title = document.getElementById('title');
+    const boton_Carga = document.getElementById('butLoa');
+    const boton_borrar = document.getElementById('butDel');
+
+        
+    boton_Carga.addEventListener('click', () => {
+        
+        const data = {
+
+            title: title.value ,
+            description:"periferico",
+            code:"",
+            price:"",
+            status:"true",
+            stock:"",
+            category:""
+        }
+    
+        console.log(data);
+        fetch('/api/products/',{
+
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+
+        })
+        .then (response => response.json())
+        .then(data => {
+            console.log('respuesta del servidor', data)
+        })
+        .catch(error => {
+            console.error('error', error)
+        });
+
+    }); 
+
+    boton_borrar.addEventListener('click', () => {
+        
+        
+        const id = title.value;
+    
+        console.log(id);
+
+
+
+        fetch(`/api/products/${id}`, {
+        
+            method: 'DELETE'
+        
+        })
+        .then(response => response.json()) // Parseamos la respuesta a JSON
+        .then(data => {
+            console.log('Respuesta del servidor:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+        window.location.reload()
+       
+    }); 
+
+
     // Solicita nickname de la persona
-    const askName = async () => {
+    /* const askName = async () => {
         const result = await Swal.fire({
             title: 'Coder Chat 70275',
             input: 'text',
@@ -41,10 +106,10 @@
         });
 
         user.nickName = result.value || 'guest'; // invitado
-    }
+    } */
 
     // Abre mensaje tipo toast que se oculta automáticamente después de 3 segs
-    const notify = (text) => {
+    /* const notify = (text) => {
         Swal.fire({
             text: text,
             toast: true,
@@ -52,7 +117,7 @@
             showConfirmButton: false,
             timer: 3000
         });
-    }
+    }*/
 
     // Conexión al SERVIDOR websockets
     const socketClient = io(url, options);
@@ -61,7 +126,7 @@
     // Cuando este cliente logra conectar con el servidor, se ejecuta este callback
     socketClient.on('connect', async () => {
         console.log(`Conectado servidor socket.io ${url}`);
-        await askName();
+        //await askName();
         // Se le envía el nickname al servidor
         socketClient.emit('new_user_data', { user: user.nickName });
     });
@@ -75,15 +140,16 @@
         data.forEach(msg => {
             prodList.innerHTML += `<br /><strong>[${msg.id}</strong>] ${msg.title}`;
         });
+
     });
 
     socketClient.on('new_general_msg', data => {
         prodList.innerHTML += `<br /><strong>[${data.id}</strong>] ${data.title}`;
     });
     
-    // new_user lo genera el servidor cuando recibe datos de un usuario nuevo conectado
+    /*// new_user lo genera el servidor cuando recibe datos de un usuario nuevo conectado
     socketClient.on('new_user', data => {
         notify(`${data.user} se ha conectado!`);
-    });
+    });*/
 
 </script>

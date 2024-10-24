@@ -1,3 +1,5 @@
+import initSocket from "../src/sockets.js";
+
 import { Router } from "express";
 
 const router = Router();
@@ -48,6 +50,7 @@ router.post('/', (req, res) => {
         const newUser = { id: id, title: title, description: description , code: code, price: price, status: status, stock: stock, category: category};
         users.push(newUser);
         managerProd.createProducts(newUser);
+        
         res.status(200).send({ error: null, data: newUser, file: req.file });
         
     } else {
